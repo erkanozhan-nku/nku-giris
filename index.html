@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- Surum: v2 | Tarih: 2026-11-24 23:17:17 UTC+3 | Donus adresi: ogrencinin geldigi adres (o=), yalnizca izinli iki adres; yoksa IP -->
 <html lang="tr">
 <head>
 <meta charset="utf-8">
@@ -34,11 +35,13 @@ p{ font-size:14px; color:var(--mut); margin:0 0 18px; }
 (function () {
   'use strict';
   var CID = "138674582611-9ur27mtchl3qh6imhbi50d46kjqn16uv.apps.googleusercontent.com";
-  var VENTO = "http://10.125.16.44";
+  var HOSTS = { "10.125.16.44": 1, "kampusici.erkanhoca.com": 1 };   // izinli donus adresleri; baska hicbir adrese donulmez
   var msg = document.getElementById('msg');
   var hash = location.hash.replace(/^#/, '');
   var ret = (hash.match(/(?:^|&)ret=([a-z]+)/) || [])[1] || 'att';
   var targetPath = (ret === 'perf') ? '/performans' : '/';
+  var from = ((hash.match(/(?:^|&)o=([A-Za-z0-9.-]{1,80})(?:&|$)/) || [])[1] || '').toLowerCase();
+  var VENTO = 'http://' + (HOSTS.hasOwnProperty(from) ? from : '10.125.16.44');
   function setMsg(cls, txt) { msg.className = cls; msg.textContent = txt; }
   function parseJwt(t) {
     try {
